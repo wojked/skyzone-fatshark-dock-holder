@@ -1,38 +1,55 @@
 /* [PLATFORM] */
-PLATFORM_WIDTH = 124;
-PLATFORM_HEIGHT= 8;
+PLATFORM_WIDTH = 95;
+PLATFORM_HEIGHT= 12;
 PLATFORM_THICKNESS = 1;
 
 /* [SMA] */
-SMA_ANGLE = 30;
-SMA_MOUNT_HEIGHT = 9;
-SMA_SCREW_Z_OFFSET = 9;
+SMA_ANGLE = 50;
+SMA_SCREW_Z_OFFSET = 11; //9 too low
+SMA_MOUNT_HEIGHT = SMA_SCREW_Z_OFFSET;   //9 too low
 SMA_DIAMETER = 6.3;
 
 SMA_VERTICAL_HOLDER_THICKNESS = 1;
 SMA_TOP_HOLDER_WIDTH = 10;
-SMA_TOP_HOLDER_HEIGHT = 15;
+SMA_TOP_HOLDER_HEIGHT = 24; // 15 too short
 
-SMA_MOUNT_DISTANCE = 114;
+SMA_MOUNT_DISTANCE = 90;
 
 /* [PHOTO SCREW PORT] */
 NUT_INSIDE_DIAMETER = 6.350;
-NUT_X_OFFSET = -20;
+NUT_X_OFFSET = -30;
 
 /* [MISC] */
 DEBUG = false;
 DEBUG_WIDTH = 130;
+FLIP_180 = true;
 
 /* [HIDDEN] */
 $fn = 128;
 fudge = 0.1;
 
 
-dock_holder();
+
+intersection(){
+    
+    debug_width = 100;
+    translate([debug_width/2 + 20,0,0])
+    cube([debug_width, 50, 20], true);
+
+    if(FLIP_180){
+        rotate([0,180,0])
+        dock_holder();    
+    }
+    else{
+        dock_holder();
+    }
+}
+
 
 module dock_holder(){
     
 //    translate([0,0, -PLATFORM_THICKNESS/2])
+    
     union(){
         x_offset = SMA_MOUNT_DISTANCE/2;            
         
@@ -48,7 +65,7 @@ module dock_holder(){
         
         if(DEBUG){
             color("grey")
-            translate([0, 0, -SMA_MOUNT_HEIGHT/2])
+            translate([0, 0, -SMA_MOUNT_HEIGHT/2-2])
             translate([0,SMA_TOP_HOLDER_WIDTH*1.5,0])
             cube([DEBUG_WIDTH, 2, PLATFORM_THICKNESS], true);        
         }        
