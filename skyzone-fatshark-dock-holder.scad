@@ -1,19 +1,19 @@
 /* [PLATFORM] */
-PLATFORM_WIDTH = 95;
-PLATFORM_HEIGHT= 12;
+PLATFORM_WIDTH = 102;
+PLATFORM_HEIGHT= 12;    // 12
 PLATFORM_THICKNESS = 1;
 
 /* [SMA] */
-SMA_ANGLE = 50;
+SMA_ANGLE = 47; //45-50
 SMA_SCREW_Z_OFFSET = 11; //9 too low
 SMA_MOUNT_HEIGHT = SMA_SCREW_Z_OFFSET;   //9 too low
 SMA_DIAMETER = 6.3;
 
 SMA_VERTICAL_HOLDER_THICKNESS = 1;
 SMA_TOP_HOLDER_WIDTH = 10;
-SMA_TOP_HOLDER_HEIGHT = 24; // 15 too short
+SMA_TOP_HOLDER_HEIGHT = 22; // 15 too short, 24 too much
 
-SMA_MOUNT_DISTANCE = 90;
+SMA_MOUNT_DISTANCE = 94;
 
 /* [PHOTO SCREW PORT] */
 NUT_INSIDE_DIAMETER = 6.350;
@@ -21,6 +21,7 @@ NUT_X_OFFSET = -30;
 
 /* [MISC] */
 DEBUG = false;
+PART_DEBUG = false;
 DEBUG_WIDTH = 130;
 FLIP_180 = true;
 
@@ -30,12 +31,23 @@ fudge = 0.1;
 
 
 
-intersection(){
-    
-    debug_width = 100;
-    translate([debug_width/2 + 20,0,0])
-    cube([debug_width, 50, 20], true);
+if(PART_DEBUG){
+    intersection(){
+        
+        debug_width = 40;
+        translate([debug_width/2 + 30,0,0])
+        cube([debug_width, 50, 20], true);
 
+        if(FLIP_180){
+            rotate([0,180,0])
+            dock_holder();    
+        }
+        else{
+            dock_holder();
+        }
+    }
+}
+else{
     if(FLIP_180){
         rotate([0,180,0])
         dock_holder();    
@@ -52,12 +64,13 @@ module dock_holder(){
     
     union(){
         x_offset = SMA_MOUNT_DISTANCE/2;            
+        y_offset = -4;
         
-        translate([-x_offset, 0, 0])
+        translate([-x_offset, y_offset, 0])
         rotate([0,0,SMA_ANGLE])        
         sma_mount();
         
-        translate([x_offset, 0, 0])
+        translate([x_offset, y_offset, 0])
         rotate([0,0,-SMA_ANGLE])
         sma_mount();
 
