@@ -17,6 +17,7 @@ SMA_MOUNT_DISTANCE = 114;
 
 /* [PHOTO SCREW PORT] */
 NUT_INSIDE_DIAMETER = 6.350;
+NUT_X_OFFSET = -20;
 
 /* [MISC] */
 DEBUG = false;
@@ -70,6 +71,7 @@ module sma_mount(){
 module top_platform(){
     difference(){
         cube([PLATFORM_WIDTH, PLATFORM_HEIGHT, PLATFORM_THICKNESS], true);
+        translate([NUT_X_OFFSET, 0, 0])
         photo_screw();
     }
 }
